@@ -1,56 +1,73 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/5HZkrI_Y)
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/r8OAyKH-)
-# CNN Classification Task with Cat-vs-Dog dataset
+## Reference
 
-## Task Description
-In this task, you will build a Convolutional Neural Network (CNN) for image classification. The goal is to classify images into two categories: **dogs** and **cats**. You will:
+- Kaggle Notebook: [Cat vs Dog CNN](https://www.kaggle.com/code/mercantl/cat-vs-dog-cnn)
 
-1. Preprocess and explore the dataset.
-2. Build and train a CNN classification model.
-3. Evaluate the model's performance using appropriate metrics.
-4. Record your findings and observations under the **Findings** section.
+## CNN Architecture
 
+- **Input:** `180 × 180 × 3`
 
-## Dataset
-The dataset used for this task is **Dogs vs. Cats**:
+- **Data Augmentation:**
+  - Random Flip
+  - Random Rotation
+  - Random Zoom
 
-[Kaggle Dataset - Dog vs. Cat](https://www.kaggle.com/datasets/shaunthesheep/microsoft-catsvsdogs-dataset/data)
+- **Preprocessing:**
+  - Rescaling (pixel values → [0, 1])
 
-### Dataset Details:
-- **Content**: Images of dogs and cats.
-- **Format**: JPEG images.
-- **Labels**: 0 for cat, 1 for dog.
+- **Convolutional Blocks:**
+  - Conv2D (32 filters) + MaxPooling2D
+  - Conv2D (64 filters) + MaxPooling2D
+  - Conv2D (128 filters) + MaxPooling2D
+  - Conv2D (128 filters) + MaxPooling2D
 
+- **Fully Connected Layers:**
+  - Flatten
+  - Dense (512, ReLU)
+  - Dropout (0.5)
 
-## Requirements
+- **Output Layer:**
+  - Dense (1, Sigmoid)
 
-1. **Model Requirements**:
-   - Build a CNN model.
-   - Include at least:
-     - Input layer for image data.
-     - Multiple convolutional layers with appropriate activation functions.
-     - Pooling layers (e.g., MaxPooling).
-     - Fully connected layers leading to a softmax or sigmoid output.
-   - Use **binary cross-entropy** as the loss function for binary classification.
+## Results
 
-2. **Evaluation**:
-   - Use metrics such as **accuracy**, **precision**, **recall**, and **F1-score**.
-   - Create visualizations for:
-     - Model training and validation loss.
-     - Model training and validation accuracy.
-     - Confusion matrix.
+- **Test Accuracy:** 90%  
+- **Precision:** ~90%  
+- **Recall:** ~90%  
+- **F1-Score:** ~90%  
 
-3. **Documentation**:
-   - Clearly document:
-     - The architecture of the CNN model.
-     - Evaluation results.
 
 ## Findings
-Document your results and observations here:
-- **Accuracy**: [Enter final accuracy here]
-- **Loss**: [Enter final loss here]
-- **Observations**:
-   - [E.g., CNN with 3 layers achieved better accuracy compared to 2 layers]
-   - [Learning rate of 0.001 provided optimal convergence]
 
-Add more details as needed to describe your experiments and outcomes.
+The model performed well overall and reached about **90% accuracy** on the test set. Precision, recall, and F1-score are also around 90%, which means the model is doing a good job at classifying both cats and dogs without being biased toward one class.
+
+From the graphs, both training and validation accuracy increased steadily and stayed close to each other. This shows that the model is learning properly and not overfitting too much. The loss also decreased over time, which confirms that the training process was stable.
+
+There were some small drops and spikes in the validation accuracy and loss during training, but this is normal and likely caused by differences between batches of images.
+
+---
+
+## Factors that affected the results
+
+- **Data augmentation**  
+  Helped the model handle different image variations (angles, flips, zoom), which improved performance on new data.
+
+- **CNN layers**  
+  The model was able to learn patterns step by step (edges - shapes - full objects), which helped it distinguish between cats and dogs.
+
+- **Dropout layer**  
+  Reduced overfitting and helped the model generalize better.
+
+- **Dataset variety**  
+  Images have different lighting, backgrounds, and poses, which makes the task harder but also helps the model become more robust.
+
+- **Training process**  
+  The optimizer (Adam) helped the model learn faster and more smoothly.
+
+- **Fixing evaluation mistake**  
+  At first, the results were wrong because predictions and labels were not aligned. After fixing this, the results became consistent and showed the real performance of the model.
+
+---
+
+## Conclusion
+
+The model works well and can correctly classify most images. The results are reliable after fixing the evaluation issue, and the overall performance shows that the CNN learned useful features from the data.
